@@ -3,3 +3,4 @@ langgraph>=0.0.50
 langchain_ollama
 pydantic
 python-dotenv
+tavily-python

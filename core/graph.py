@@ -26,7 +26,7 @@ class GraphManager:
         return {"content": draft, "status": "drafted"}
 
     def researching_node(self, state: AgentState):
-        research = self.engine.perform_research(state["content"])
+        research = self.engine.perform_research(state["content"], state["input"])
         return {"research_notes": research, "status": "researched"}
 
     def refining_node(self, state: AgentState):

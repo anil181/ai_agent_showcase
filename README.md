@@ -1,11 +1,11 @@
 # AI Agent Showcase Project
 
-A demonstration project showcasing a multi-step AI agent powered by **LangChain** and orchestrated via **LangGraph**, built with an **Object-Oriented Programming (OOP)** approach.
+A demonstration project showcasing a multi-step AI agent powered by **LangChain** and orchestrated via **LangGraph**, built with an **Object-Oriented Programming (OOP)** approach. The research phase fetches live data from the internet using the **Tavily Search API**.
 
 ## 🚀 Overview
-This project demonstrates how to build complex, stateful agentic workflows. Instead of simple linear chains, it uses LangGraph to manage a non-linear \"State Machine\" where the AI moves through different phases:
+This project demonstrates how to build complex, stateful agentic workflows. Instead of simple linear chains, it uses LangGraph to manage a non-linear "State Machine" where the AI moves through different phases:
 1.  **Drafting**: Initial creation of content based on user input.
-2.  **Researching**: Enhancing the draft with additional facts and depth.
+2.  **Researching**: Generates a search query using the LLM, fetches real-time results from the internet via **Tavily Search API**, and synthesizes 3 contextual facts with citations.
 3.  **Refining**: Polishing the final output into a professional format.
 
 ## 🛠️ Technologies Used
@@ -13,12 +13,15 @@ This project demonstrates how to build complex, stateful agentic workflows. Inst
 - **LangChain**: Provides high-level abstractions for interacting with LLMs.
 - **LangGraph**: Manages the agent's state and lifecycle transitions.
 - **Pydantic**: Defines structured data models for the internal state.
+- **Tavily Search API**: Fetches live internet search results during the research phase.
+- **Ollama (local)**: Hosts the LLM (`gemma4:12b`) locally for all generation tasks.
 
 ## 📋 Prerequisites
 Before running this project, ensure you have:
 - Python 3.9 or higher installed.
 - **Ollama** installed and running locally ([ollama.com](https://ollama.com/)).
 - The model `gemma4:12b` pulled via Ollama (run `ollama pull gemma4:12b`).
+- A **Tavily API Key** — get a free key at [tavily.com](https://tavily.com).
 
 ## 🚀 Setup & Installation
 
@@ -30,8 +33,9 @@ Before running this project, ensure you have:
 2.  **Create a Virtual Environment (Recommended):**
     ```bash
     python -m venv venv
-    source venv/bin/activate # On Windows use: venv\\Scripts\\activate
+    source venv/bin/activate  # On Windows use: venv\Scripts\activate
     ```
+    > **Note:** The `venv/` directory is listed in `.gitignore` and will not be committed to version control.
 
 3.  **Install Dependencies:**
     ```bash
@@ -39,10 +43,13 @@ Before running this project, ensure you have:
     ```
 
 4.  **Configure Environment Variables:**
-    Create a file named `.env` in the root directory. While Ollama often uses defaults, you can specify your host if needed:
+    Create a `.env` file in the root directory with the following contents:
     ```text
     OLLAMA_HOST=http://localhost:11434
+    TAVILY_API_KEY=your_tavily_api_key_here
     ```
+    Replace `your_tavily_api_key_here` with your actual key from [tavily.com](https://tavily.com).
+    > **Warning:** The `.env` file is listed in `.gitignore` — never commit it to version control.
 
 ## 🏃 Running the Project
 
@@ -82,7 +89,10 @@ graph TD
 
 ### 🔄 Program Flow
 1. **Drafting Phase (`drafting_node`)**: Receives the user input topic (`state["input"]`), generates an initial draft outline, and stores it in `state["content"]`.
-2. **Researching Phase (`researching_node`)**: Reads the initial draft from `state["content"]`, executes research instructions to generate three contextual nuances/facts, and saves them specifically to `state["research_notes"]`.
+2. **Researching Phase (`researching_node`)**:
+   - The LLM generates a targeted search query from the topic and draft content.
+   - **Tavily Search API** fetches up to 3 live internet results for that query.
+   - The LLM synthesizes 3 additional facts or contextual nuances with source citations from those results and saves them to `state["research_notes"]`.
 3. **Refining Phase (`refining_node`)**: Reads both the initial draft (`state["content"]`) and the research findings (`state["research_notes"]`), merges them into a polished final article, and overwrites `state["content"]` with the refined output.
 
 ---
