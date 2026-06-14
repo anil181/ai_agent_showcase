@@ -47,6 +47,11 @@ Before running this project, ensure you have:
     ```text
     OLLAMA_HOST=http://localhost:11434
     TAVILY_API_KEY=your_tavily_api_key_here
+    LANGSMITH_API_KEY="your_LangSmith_api_key_here"
+    LANGSMITH_TRACING_V2=true
+    LANGSMITH_PROJECT="langchain-academy"
+# If you are on the EU instance:
+LANGSMITH_ENDPOINT=https://apac.api.smith.langchain.com
     ```
     Replace `your_tavily_api_key_here` with your actual key from [tavily.com](https://tavily.com).
     > **Warning:** The `.env` file is listed in `.gitignore` — never commit it to version control.
