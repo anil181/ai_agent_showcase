@@ -4,3 +4,4 @@ langchain_ollama
 pydantic
 python-dotenv
 tavily-python
+langsmith
