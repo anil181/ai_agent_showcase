@@ -1,4 +1,4 @@
-# AI Agent Showcase Project
+# AI Agent using LangGraph
 
 A demonstration project showcasing a multi-step AI agent powered by **LangChain** and orchestrated via **LangGraph**, built with an **Object-Oriented Programming (OOP)** approach. The research phase fetches live data from the internet using the **Tavily Search API**.
 
