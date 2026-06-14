@@ -1,5 +1,4 @@
-from typing import Annotated, List, TypedDict
-from typing_extensions import Literal
+from typing import List, TypedDict
 
 class AgentState(TypedDict):
     # The input query from the user
